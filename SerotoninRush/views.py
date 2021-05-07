@@ -60,7 +60,7 @@ class Login(viewsets.ReadOnlyModelViewSet):
         try:
             user = auth.authenticate(username=username, password=password)
         except:
-            return JsonResponse({'message': 'user already exist'})
+            return JsonResponse({'message': 'Credentials are not correct !'})
         #   creating User with the given Data
 
         try:
@@ -196,7 +196,6 @@ class correlation(APIView):
         # getting the user by his token ..
         try:
             user_token = request.POST.get('token')
-            print('usr', user_token)
             token_object = Token.objects.get(key=user_token)
             user = token_object.user
             user = User.objects.get(username=user)
@@ -205,6 +204,8 @@ class correlation(APIView):
             return JsonResponse({'message': 'Error'})
         # getting the user entries ..
         reactions = UserReaction.objects.filter(user=user).values()
+        if len(reactions) < 10:
+            return JsonResponse({'message': 'error', 'value': 'sorry, you dont have enough data'})
         reactions = list(reactions)
         points = {'fats': 0, 'protein': 0, 'carbohydrate': 0, 'calories': 0}
         for meal in reactions:
