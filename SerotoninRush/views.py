@@ -126,17 +126,17 @@ class AddReaction(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserReactionSerializer
 
     def post(self, request):
-        try:
-            user_name = request.POST.get('username')
-            meals = request.POST.get('meals')
-            reaction = request.POST.get('reaction')
-            meals_id = []
-            for i in meals:
-                if i != '[' and i != ']' and i != ',':
-                    meals_id.append(int(i))
-            print(u'the username is : {}, meals : {}, reaction: {}'.format(user_name, meals, reaction))
-        except:
-            return JsonResponse({'message': 'error while receiving data'})
+        # try:
+        user_name = request.POST.get('username')
+        meals = request.POST.get('meals')
+        reaction = request.POST.get('reaction')
+        meals_id = []
+        for i in meals:
+            if i != '[' and i != ']' and i != ',':
+                meals_id.append(int(i))
+        print(u'the username is : {}, meals : {}, reaction: {}'.format(user_name, meals, reaction))
+        # except:
+        #     return JsonResponse({'message': 'error while receiving data'})
         try:
             superuser = SuperUser.objects.get(username=user_name)
             user = User.objects.get(username=superuser)
@@ -168,7 +168,7 @@ class GetUserInfoViaToken(viewsets.ReadOnlyModelViewSet):
 
 
 class PendingMeals(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:
@@ -192,6 +192,7 @@ class ChangeMealStatus(APIView):
 
 class correlation(APIView):
 
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         # getting the user by his token ..
         try:
