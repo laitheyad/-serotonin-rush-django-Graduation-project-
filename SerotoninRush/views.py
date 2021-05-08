@@ -129,12 +129,12 @@ class AddReaction(viewsets.ReadOnlyModelViewSet):
     def post(self, request):
         try:
             user_name = request.POST.get('username')
-            meals = request.POST.getList('meals')
+            meals = request.POST.get('meals')
             reaction = request.POST.get('reaction')
-            meals_id = []
-            for i in meals:
-                if i != '[' and i != ']' and i != ',':
-                    meals_id.append(int(i))
+            meals_id = list(meals)
+            # for i in meals:
+            #     if i != '[' and i != ']' and i != ',':
+            #         meals_id.append(int(i))
             print(u'the username is : {}, meals : {}, reaction: {}'.format(user_name, meals, reaction))
         except:
             return JsonResponse({'message': 'error while receiving data'})
