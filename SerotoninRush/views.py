@@ -126,25 +126,25 @@ class AddReaction(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserReactionSerializer
 
     def post(self, request):
-        # try:
-        user_name = request.POST.get('username')
-        meals = request.POST.get('meals')
-        reaction = request.POST.get('reaction')
-        meals_id = []
-        for i in meals:
-            if i != '[' and i != ']' and i != ',':
-                meals_id.append(int(i))
-        print(u'the username is : {}, meals : {}, reaction: {}'.format(user_name, meals, reaction))
-        # except:
-        #     return JsonResponse({'message': 'error while receiving data'})
         try:
-            superuser = SuperUser.objects.get(username=user_name)
-            user = User.objects.get(username=superuser)
-            for i in meals_id:
-                meal = Meal.objects.get(pk=i)
-                UserReaction.objects.create(user=user, meal=meal, reaction=int(reaction))
+            user_name = request.POST.get('username')
+            meals = request.POST.get('meals')
+            reaction = request.POST.get('reaction')
+            meals_id = []
+            for i in meals:
+                if i != '[' and i != ']' and i != ',':
+                    meals_id.append(int(i))
+            print(u'the username is : {}, meals : {}, reaction: {}'.format(user_name, meals, reaction))
         except:
-            return JsonResponse({'message': 'error while adding meals'})
+            return JsonResponse({'message': 'error while receiving data'})
+        # try:
+        superuser = SuperUser.objects.get(username=user_name)
+        user = User.objects.get(username=superuser)
+        for i in meals_id:
+            meal = Meal.objects.get(pk=i)
+            UserReaction.objects.create(user=user, meal=meal, reaction=int(reaction))
+        # except:
+        #     return JsonResponse({'message': 'error while adding meals'})
         return JsonResponse(
             {'message': u'the username is : {}, meals : {}, reaction: {}'.format(user_name, meals, reaction)})
 
