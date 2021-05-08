@@ -122,7 +122,6 @@ class AllMeals(viewsets.ReadOnlyModelViewSet):
 
 
 class AddReaction(viewsets.ReadOnlyModelViewSet):
-
     queryset = UserReaction.objects.all()
     serializer_class = UserReactionSerializer
 
@@ -131,7 +130,9 @@ class AddReaction(viewsets.ReadOnlyModelViewSet):
             user_name = request.POST.get('username')
             meals = request.POST.get('meals')
             reaction = request.POST.get('reaction')
-            meals_id = list(meals)
+            meals = meals.replace('[', '')
+            meals = meals.replace(']', '')
+            meals_id = meals.split(',')
             # for i in meals:
             #     if i != '[' and i != ']' and i != ',':
             #         meals_id.append(int(i))
@@ -192,8 +193,8 @@ class ChangeMealStatus(APIView):
 
 
 class correlation(APIView):
-
     permission_classes = [IsAuthenticated]
+
     def post(self, request):
         # getting the user by his token ..
         try:
