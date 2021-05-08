@@ -115,7 +115,7 @@ class UpdateInfo(viewsets.ReadOnlyModelViewSet):
 
 
 class AllMeals(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     serializer_class = MealSerializer
     queryset = Meal.objects.filter(status='Approved')
