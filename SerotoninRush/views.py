@@ -131,6 +131,7 @@ class AddReaction(viewsets.ReadOnlyModelViewSet):
             meals = request.POST.get('meals')
             reaction = request.POST.get('reaction')
             meals_id = []
+            meals=meals.split(',')
             for i in meals:
                 if i != '[' and i != ']' and i != ',':
                     meals_id.append(int(i))
