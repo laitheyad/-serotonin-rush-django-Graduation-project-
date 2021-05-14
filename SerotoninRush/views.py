@@ -120,6 +120,16 @@ class AllMeals(viewsets.ReadOnlyModelViewSet):
     serializer_class = MealSerializer
     queryset = Meal.objects.filter(status='Approved')
 
+class ApprovedMeals(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            pending_meals = Meal.objects.filter(status='Approved').values()
+            return JsonResponse({'message': 'success', 'pending_meals': list(pending_meals)})
+        except:
+            return JsonResponse({'message': 'false'})
+
 
 class AddReaction(viewsets.ReadOnlyModelViewSet):
     queryset = UserReaction.objects.all()
