@@ -120,6 +120,7 @@ class AllMeals(viewsets.ReadOnlyModelViewSet):
     serializer_class = MealSerializer
     queryset = Meal.objects.filter(status='Approved')
 
+
 class ApprovedMeals(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -260,8 +261,11 @@ class GetUserMealsViaToken(viewsets.ReadOnlyModelViewSet):
             token = request.POST.get('token')
             user = Token.objects.get(key=token).user
             consumer = User.objects.get(username=user)
-            reactions_meals = UserReaction.objects.filter(username=consumer)
-            return JsonResponse({'message': 'success', 'reactions': reactions_meals})
+            reactions_meals = UserReaction.objects.filter(user_id=consumer).values()
+            for i in reactions_meals:
+                print(i)
+                mm = Meal.objects.get(pk=i['meal_id'])
+                i['meal_id'] = mm.name
+            return JsonResponse({'message': 'success', 'reactions': list(reactions_meals)})
         except:
             return JsonResponse({'message': 'false'})
-
