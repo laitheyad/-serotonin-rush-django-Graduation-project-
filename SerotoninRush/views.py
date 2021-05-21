@@ -270,19 +270,6 @@ class GetUserMealsViaToken(viewsets.ReadOnlyModelViewSet):
         except:
             return JsonResponse({'message': 'false'})
 
-    # name = models.CharField(max_length=250)
-    # fats = models.FloatField()
-    # protein = models.FloatField()
-    # carbohydrate = models.FloatField()
-    # calories = models.FloatField()
-    # recipe = models.TextField()
-    # status_selection = [
-    #     ('Approved', 'Approved'),
-    #     ('Rejected', 'Rejected'),
-    #     ('Pending', 'Pending')
-    # ]
-    # status = models.CharField(max_length=8, default='Pending', choices=status_selection)
-
 
 class createMeal(APIView):
     def post(self, request):
@@ -294,7 +281,7 @@ class createMeal(APIView):
             recipe = request.POST.get('recipe', None)
             protein = request.POST.get('protein', None)
             Meal.objects.create(name=name, carbohydrate=carbohydrate, fats=fats, calories=calories, protein=protein,
-                                recipe=recipe, status='Approved')
+                                recipe=recipe, status='Pending')
             return JsonResponse({'message': 'meal created'})
         except:
             return JsonResponse({'message': 'error'})
