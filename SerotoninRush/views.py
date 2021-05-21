@@ -85,16 +85,15 @@ class UpdateInfo(viewsets.ReadOnlyModelViewSet):
 
     def post(self, request):
         global consumer
-        try:
-            print('here!')
-            first_name = request.POST['first_name']
-            last_name = request.POST['last_name']
-            date_of_birth = request.POST['date_of_birth']
-            email = request.POST['email']
-            phone = request.POST['phone']
-            username = request.POST['username']
-        except:
-            return JsonResponse({'message': 'error while receiving data'})
+        # try:
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        date_of_birth = request.POST['date_of_birth']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        username = request.POST['username']
+        # except:
+        #     return JsonResponse({'message': 'error while receiving data'})
         try:
             print(username)
             user = SuperUser.objects.get(username=username)
@@ -102,16 +101,17 @@ class UpdateInfo(viewsets.ReadOnlyModelViewSet):
 
         except:
             return JsonResponse({'message': 'error while finding user'})
-        try:
-            consumer.first_name = first_name
-            consumer.last_name = last_name
-            consumer.date_of_birth = date_of_birth
-            consumer.email = email
-            consumer.phone = phone
-            consumer.save()
-            return JsonResponse({'message': 'success'})
-        except:
-            return JsonResponse({'message': 'error while receiving data'})
+        # try:
+        consumer.first_name = first_name
+        consumer.last_name = last_name
+        consumer.date_of_birth = date_of_birth
+        consumer.email = email
+        consumer.phone = phone
+        consumer.save()
+        print(last_name)
+        return JsonResponse({'message': 'success'})
+        # except:
+        #     return JsonResponse({'message': 'error while receiving data'})
 
 
 class AllMeals(viewsets.ReadOnlyModelViewSet):
@@ -252,3 +252,16 @@ class correlation(APIView):
         meals = list(meals.values())
         meals = meals[:30]
         return JsonResponse({'message': 'success', 'best_for_you': highest_value, 'meals': meals})
+
+
+class GetUserMealsViaToken(viewsets.ReadOnlyModelViewSet):
+    def post(self, request):
+        try:
+            token = request.POST.get('token')
+            user = Token.objects.get(key=token).user
+            consumer = User.objects.get(username=user)
+            reactions_meals = UserReaction.objects.filter(username=consumer)
+            return JsonResponse({'message': 'success', 'reactions': reactions_meals})
+        except:
+            return JsonResponse({'message': 'false'})
+

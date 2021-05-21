@@ -13,6 +13,7 @@ router.register('all_meals', AllMeals, basename='all_meals')
 router.register('add_reaction', AddReaction, basename='add_reaction')
 router.register('news', NewsAPI, basename='news')
 router.register('user_info', GetUserInfoViaToken, basename='user_info')
+router.register('user_reactions_info', GetUserMealsViaToken, basename='user_reactions_info')
 
 urlpatterns = [
     path('API/', include(router.urls)),
