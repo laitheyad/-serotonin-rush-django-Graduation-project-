@@ -244,7 +244,7 @@ class correlation(APIView):
         highest_value = max(points, key=points.get)
         if highest_value == 'fats':
             meals = Meal.objects.filter(fats__gte=30)
-        elif highest_value == 'carbohydrate':
+        elif highest_value == 'hcarbohydrate':
             meals = Meal.objects.filter(carbohydrate__gte=25)
         elif highest_value == 'protein':
             meals = Meal.objects.filter(protein__gte=20)
@@ -269,3 +269,32 @@ class GetUserMealsViaToken(viewsets.ReadOnlyModelViewSet):
             return JsonResponse({'message': 'success', 'reactions': list(reactions_meals)})
         except:
             return JsonResponse({'message': 'false'})
+
+    # name = models.CharField(max_length=250)
+    # fats = models.FloatField()
+    # protein = models.FloatField()
+    # carbohydrate = models.FloatField()
+    # calories = models.FloatField()
+    # recipe = models.TextField()
+    # status_selection = [
+    #     ('Approved', 'Approved'),
+    #     ('Rejected', 'Rejected'),
+    #     ('Pending', 'Pending')
+    # ]
+    # status = models.CharField(max_length=8, default='Pending', choices=status_selection)
+
+
+class createMeal(APIView):
+    def post(self, request):
+        try:
+            name = request.POST.get('name', None)
+            carbohydrate = request.POST.get('carbohydrate', None)
+            fats = request.POST.get('fats', None)
+            calories = request.POST.get('calories', None)
+            recipe = request.POST.get('recipe', None)
+            protein = request.POST.get('protein', None)
+            Meal.objects.create(name=name, carbohydrate=carbohydrate, fats=fats, calories=calories, protein=protein,
+                                recipe=recipe, status='Approved')
+            return JsonResponse({'message': 'meal created'})
+        except:
+            return JsonResponse({'message': 'error'})

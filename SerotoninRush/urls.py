@@ -20,6 +20,7 @@ urlpatterns = [
     path(r'change_meal_status/', ChangeMealStatus.as_view(), name='change_meal_status'),
     path(r'pending_meals/', PendingMeals.as_view(), name='pending_meals'),
     path(r'approved_meals/', ApprovedMeals.as_view(), name='approved_meals'),
+    path(r'create_meal/', createMeal.as_view(), name='create_meal'),
     path(r'correlation/', correlation.as_view(), name='correlation')
 
 ]
