@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 class MealSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meal
-        fields = ['pk', 'name', 'fats', 'protein', 'carbohydrate', 'recipe']
+        fields = ['pk', 'img', 'name', 'fats', 'protein', 'carbohydrate', 'recipe']
 
 class UserReactionSerializer(serializers.ModelSerializer):
     class Meta:

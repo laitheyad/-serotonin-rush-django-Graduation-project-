@@ -22,6 +22,7 @@ class User(models.Model):
 
 
 class Meal(models.Model):
+    img = models.ImageField(null=True, blank=True)
     name = models.CharField(max_length=250)
     fats = models.FloatField()
     protein = models.FloatField()
