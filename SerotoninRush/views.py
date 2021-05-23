@@ -244,17 +244,20 @@ class correlation(APIView):
         highest_value = max(points, key=points.get)
         if highest_value == 'fats':
             meals = Meal.objects.filter(fats__gte=30)
+            meals = list(meals.values())
             meals.sort(key=lambda x: x.fats, reverse=True)
         elif highest_value == 'carbohydrate':
             meals = Meal.objects.filter(carbohydrate__gte=25)
+            meals = list(meals.values())
             meals.sort(key=lambda x: x.carbohydrate, reverse=True)
         elif highest_value == 'protein':
             meals = Meal.objects.filter(protein__gte=20)
+            meals = list(meals.values())
             meals.sort(key=lambda x: x.protein, reverse=True)
         elif highest_value == 'calories':
             meals = Meal.objects.filter(calories__gte=80)
+            meals = list(meals.values())
             meals.sort(key=lambda x: x.calories, reverse=True)
-        meals = list(meals.values())
         meals = meals[:30]
         return JsonResponse({'message': 'success', 'best_for_you': highest_value, 'meals': meals})
 
